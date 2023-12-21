@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Header from "../header/Header";
 
-const CustomerDetail = ({ id }) => {
-    const [data, setData] = useState(null);
+const CustomerDetail = () => {
+    const { id } = useParams()
+    const [data, setData] = useState([]);
+    console.log(id)
     const url = "http://localhost:8080"
     useEffect(() => {
         // Get product data
@@ -15,16 +19,21 @@ const CustomerDetail = ({ id }) => {
         getProduct();
     }, [id]);
     return (
+        <div>
+            <Header />
+            
+            <ul>
+                {data.map(x => (
+                    <div>
+                        <span> {x.finalAction.customer.name}</span>
+                        <li key={x.log_id}>
 
-        <ul>
-            {data.map(x => (
-                <li key={x.log_id}>
-                    {x.condition.map(fa => (
-                        <span>{ fa.attribute.attributeName }</span>
-                    ))}
-                </li>
-            ))}
-        </ul>
+                            {x.condition.attribute.attributeName}{' '}{x.condition.operator.symbol}{' '}{x.condition.value === '' ? 'null' : x.condition.value}{'. Lúc xét có giá trị '}{x.customerValue}
+                        </li>
+                    </div>
+                ))}
+            </ul>
+        </div>
 
     )
 }

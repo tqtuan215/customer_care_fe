@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Table } from 'react-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import FinalActionData from "../../utils/FetchData";
+import Header from "../header/Header";
 
 const UploadExcel = () => {
   const url = "http://localhost:8080"
@@ -15,6 +16,7 @@ const UploadExcel = () => {
     console.log(e.target.files[0])
   };
 
+  // hủy comment để chạy localhost
 
   // const handleUpload = async () => {
   //   try {
@@ -46,21 +48,18 @@ const UploadExcel = () => {
   //   }
   // };
 
+  // data after running api above for save time
   const handleUpload = () => {
     setIsLoading(true)
     setTimeout(() => {
       setData(finalActionData)
       setIsLoading(false)
-    }, 2000)
+    }, 3000)
   }
-
-  const redirectToLog = (finalActionId) => {
-    // Thực hiện chuyển hướng tới đường dẫn /log/:finalActionValueId
-    window.location.href = `/log/${finalActionId}`;
-  };
 
   return (
     <>
+      <Header />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 offset-md-3">
@@ -88,47 +87,31 @@ const UploadExcel = () => {
           </tr>
         </thead>
         {data.length > 0 ? (
-
-
           <tbody>
             {data ? data.map(x => (
-
-
-              <tr key={x.finalActionId}>
-                
-                  <td>
-                  <Link to={`/log/${x.finalActionId}`}>{x.customer.name}</Link>
-                  </td>
-                
-
+              <tr key={x.log_id}>
                 <td>
-
-
+                  {/* <Link to={`/log/${x.finalActionId}`}>{x.customer.name}</Link> */}
+                  <Link to={`/log/${x.customer.customerId}`}>{x.customer.name}</Link>
+                </td>
+                <td>
                   {x.action.name}{': '}
                   {x.finalActionValue.map(valueX => (
-
                     <span key={valueX.finalActionValueId}>{valueX.finalActionAttribute.criteria.name === 'nội dung' ? ` "${valueX.value}"` : ` ${valueX.value}`}</span>
                   ))}
 
                 </td>
               </tr>
-
-
-
             )) : (
               <tr>
                 <td colSpan="2">No data available</td>
               </tr>
             )}
           </tbody>
-
-
-
-
-        ) : ''}
+        ) : <tr>
+          <td colSpan="2">No data available</td>
+        </tr>}
       </Table >
-
-
     </>
   );
 };
