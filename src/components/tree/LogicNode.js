@@ -2,10 +2,17 @@
 
 import React, { useState } from 'react';
 import ConditionNode from './ConditionNode';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 // import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const LogicNode = ({ id, label, operator, conditions, onDelete, onAddNode }) => {
   const [childNodes, setChildNodes] = useState(conditions);
+  const [selectedOperator, setSelectedOperator] = useState(operator)
+
+  const handleOperatorChange = (e) => {
+    setSelectedOperator(e.target.value);
+  };
 
   const addCondition = () => {
     const newCondition = {
@@ -37,31 +44,37 @@ const LogicNode = ({ id, label, operator, conditions, onDelete, onAddNode }) => 
   };
 
   const handleDelete = () => {
-     // Remove the node from the list of child nodes
-     setChildNodes((prevChildNodes) => prevChildNodes.filter((node) => node.id !== id));
+    // Remove the node from the list of child nodes
+    // setChildNodes((prevChildNodes) => prevChildNodes.filter((node) => node.id !== id));
 
-     // Inform the parent component about the deletion
-     onDelete(id);
+    // Inform the parent component about the deletion
+    onDelete(id);
   };
 
   return (
     <div style={{ marginLeft: '20px', border: '1px solid #ccc', padding: '10px' }}>
-    <div>
       <div>
-        <span style={{ marginLeft: '10px', fontWeight: 'bold' }}>{label}</span>
-        <button onClick={handleDelete}>Delete</button>
+        <div>
+          <span>
+            <select value={selectedOperator} onChange={handleOperatorChange}>
+              <option value="AND">AND</option>
+              <option value="OR">OR</option>
+              <option value="IN">IN</option>
+            </select>
+          </span>
+          <button onClick={handleDelete}>Delete</button>
+        </div>
       </div>
+      <FontAwesomeIcon icon={faPlus} onClick={addCondition} title="Add new condition"/>
+      <button onClick={addLogic}>Add Logic</button>
+      {childNodes.map((childNode) =>
+        childNode.type === 'logic' ? (
+          <LogicNode key={childNode.id} onDelete={onDelete} onAddNode={onAddNode} {...childNode} />
+        ) : (
+          <ConditionNode key={childNode.id} onDelete={onDelete} onAddNode={onAddNode} {...childNode} />
+        )
+      )}
     </div>
-    <button onClick={addCondition}>Add Condition</button>
-    <button onClick={addLogic}>Toggle Operator</button>
-    {childNodes.map((childNode) =>
-      childNode.type === 'logic' ? (
-        <LogicNode key={childNode.id} onDelete={onDelete} onAddNode={onAddNode} {...childNode} />
-      ) : (
-        <ConditionNode key={childNode.id} onDelete={onDelete} onAddNode={onAddNode} {...childNode} />
-      )
-    )}
-  </div>
   );
 };
 

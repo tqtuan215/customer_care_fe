@@ -1,33 +1,28 @@
 // ConditionNode.js
 
 import React, { useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ConditionNode = ({ id, label, onDelete, onAddNode }) => {
   const [textValue, setTextValue] = useState('');
   const [selectValue, setSelectValue] = useState('');
   const [attribute, setAttribute] = useState()
 
-  // const addCondition = () => {
-  //   const newCondition = {
-  //     id: Date.now(),
-  //     label: `Condition ${id}_${Date.now()}`,
-  //     type: 'condition',
-  //     text: textValue,
-  //     select: selectValue,
-  //     color: 'blue', // Example color
-  //     icon: '⚫', // Example icon
-  //     description: 'This is a condition.', // Example description
-  //   };
+  const addNewCondition = () => {
+    const newCondition = {
+      id: Date.now(),
+      label: `New Condition`,
+      type: 'condition',
+      text: '',
+      select: '',
+      color: 'blue', // Example color
+      icon: '⚫', // Example icon
+      description: 'This is a condition.', // Example description
+    };
 
-  //   // Call a callback to inform the parent component about the new condition
-  //   onAddNode(id, newCondition);
-
-  //   // Reset input values after adding a condition
-  //   setTextValue('');
-  //   setSelectValue('');
-  // };
+    onAddNode(id, newCondition);
+  };
 
   const handleDelete = () => {
     onDelete(id);
@@ -38,7 +33,8 @@ const ConditionNode = ({ id, label, onDelete, onAddNode }) => {
       <div>
         <div>
           <span style={{ marginLeft: '10px', fontWeight: 'bold' }}>{label}</span>
-          <button onClick={handleDelete}>Delete</button>
+          <FontAwesomeIcon icon={faTrash} onClick={handleDelete} title="Delete"/>
+          <FontAwesomeIcon icon={faPlus} onClick={addNewCondition} title="Add condition"/>
         </div>
       </div>
       <div>

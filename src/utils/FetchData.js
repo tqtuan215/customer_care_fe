@@ -319,5 +319,7 @@ const finalActionData = [
         ]
     }
 ]
+const action = [
 
-export default finalActionData
+]
+export { action, finalActionData }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Table } from 'react-bootstrap';
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import FinalActionData from "../../utils/FetchData";
+import { finalActionData } from "../../utils/FetchData";
 import Header from "../header/Header";
 
 const UploadExcel = () => {
@@ -10,7 +10,7 @@ const UploadExcel = () => {
   const [uploadStatus, setUploadStatus] = useState(null);
   const [isLoading, setIsLoading] = useState()
   const [data, setData] = useState([]);
-  const finalActionData = FinalActionData
+  const finalActionDatas = finalActionData
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
     console.log(e.target.files[0])
@@ -52,14 +52,14 @@ const UploadExcel = () => {
   const handleUpload = () => {
     setIsLoading(true)
     setTimeout(() => {
-      setData(finalActionData)
+      setData(finalActionDatas)
       setIsLoading(false)
     }, 3000)
   }
 
   return (
     <>
-      <Header />
+      
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-6 offset-md-3">

@@ -1,11 +1,16 @@
 import './App.css';
-import UploadExcel from './components/upload/uploadExcel';
+import Header from './components/header/Header';
+import { Outlet } from 'react-router-dom';
 
 function App() {
 
   return (
     <>
-      <UploadExcel />
+      <Header />
+      <div className="container">
+        <Outlet />
+      </div>
+      <footer>Loyalty</footer>
     </>
   );
 }
